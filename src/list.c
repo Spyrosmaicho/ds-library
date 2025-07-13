@@ -145,20 +145,19 @@ void print_list(List *list)
         return;
     }
     
-    
+
     Node *current = list->head;
-    printf("[");
     for(int i = 0; i < list->size; i++) 
     {
         printf("%d", current->val);
         if (current->next) 
         {
-            printf(", ");
+            printf(" -> ");
         }
         current = current->next;
     }
     
-    printf("]\n");
+    printf("-> NULL\n");
 }
 
 
