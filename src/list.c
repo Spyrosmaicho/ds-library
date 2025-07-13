@@ -14,12 +14,6 @@ struct List
     int size;
 };
 
-enum Status 
-{
-    FAILURE = 0,
-    SUCCESS = 1
-};
-
 /*Function that creates a List struct*/
 List *create_list(void)
 {
