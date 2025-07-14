@@ -6,7 +6,7 @@
 typedef struct Stack Stack;
 
 /*Function to initialize a stack*/
-Stack *init_stack(void);
+Stack *init_stack(int element_size);
 
 /*Function to check if the stack is empty*/
 bool is_stack_empty(Stack *stack);
@@ -18,10 +18,10 @@ bool is_stack_full(Stack *stack);
 int stack_size(Stack *stack);
 
 /*Function to return the topmost element of the stack*/
-int stack_peek(Stack *stack);
+void *stack_peek(Stack *stack);
 
 /*Function to push an element onto the stack*/
-void stack_push(Stack *stack,int val);
+void stack_push(Stack *stack,void *val);
 
 /*Function to pop an element from the stack*/
 void stack_pop(Stack *stack);
@@ -33,6 +33,9 @@ void destroy_stack(Stack *stack);
 int get_stack_top(Stack *stack);
 
 //Helper function to get the stack data
-int *get_stack_data(Stack *stack);
+void *get_stack_data(Stack *stack);
+
+//Helper function to get the capacity of the stack
+int get_stack_capacity(Stack *stack);
 
 #endif
