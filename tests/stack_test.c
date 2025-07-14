@@ -11,141 +11,141 @@
 */
 
 
-void test_stack_init(void) {
-    Stack *stack = init_stack();
-    TEST_CHECK(stack != NULL); // Check if stack is initialized
-    int *data = get_stack_data(stack);
-    int top = get_stack_top(stack);
-    TEST_CHECK(data != NULL);
-    TEST_CHECK(top == -1);
+void test_stack_init(void) 
+{
+    Stack *stack = init_stack(sizeof(int));
+    TEST_CHECK(stack != NULL);
+    TEST_CHECK(stack_size(stack) == 0);
+    TEST_CHECK(is_stack_empty(stack) == true);
+    TEST_CHECK(is_stack_full(stack) == false);
+    destroy_stack(stack);
 }
 
-void test_stack_empty(void) {
-
-    Stack *stack = init_stack();
-    TEST_CHECK(stack != NULL); // Check if stack is initialized
-    TEST_CHECK(is_stack_empty(stack) == true);
+void test_int_stack(void) 
+{
+    Stack *stack = init_stack(sizeof(int));
+    TEST_CHECK(stack != NULL);
     
-    stack_push(stack, 42);
+    int values[] = {10, 20, 30, 40, 50};
+    
+    // Test push with integers
+    for (int i = 0; i < 5; i++) {
+        stack_push(stack, &values[i]);
+    }
+    TEST_CHECK(stack_size(stack) == 5);
     TEST_CHECK(is_stack_empty(stack) == false);
     
-    destroy_stack(stack);
-}
-
-void test_stack_full(void) 
-{
-    Stack *stack = init_stack();
-    TEST_CHECK(stack != NULL); // Check if stack is initialized
-
-    for (int i = 0; i < 100; i++)  stack_push(stack, i);
+    // Test peek with integers
+    int *top = stack_peek(stack);
+    TEST_CHECK(*top == 50);
     
-    TEST_CHECK(is_stack_full(stack) == true);
-    
-    stack_push(stack, 101); // Attempt to push when full
-    TEST_CHECK(is_stack_full(stack) == false); // Should still be full
-
-    destroy_stack(stack);
-}
-
-void test_stack_size(void) 
-{
-    Stack *stack = init_stack();
-    TEST_CHECK(stack != NULL); // Check if stack is initialized
-    TEST_CHECK(stack_size(stack) == 0);
-    
-    for (int i = 0; i < 5; i++) stack_push(stack, i);
-    
-    TEST_CHECK(stack_size(stack) == 5);
-    
-    for(int i = 5 ; i < 100; i++) stack_push(stack, i);
-
-    TEST_CHECK(stack_size(stack) == 100);
-
-    stack_push(stack,101);
-    TEST_CHECK(stack_size(stack) == 101);
-
-    for(int i = 0; i < 50; i++) stack_pop(stack);
-
-    TEST_CHECK(stack_size(stack) == 51);
-
-    destroy_stack(stack);
-}
-
-void test_stack_peek(void) 
-{
-    Stack *stack = init_stack();
-    TEST_CHECK(stack != NULL); // Check if stack is initialized
-    stack_push(stack, 10);
-    stack_push(stack, 20);
-    stack_push(stack, 30);
-    
-    TEST_CHECK(stack_peek(stack) == 30); // Should return the top element
-    
+    // Test pop with integers
     stack_pop(stack);
-    TEST_CHECK(stack_peek(stack) == 20); // Should return the new top element
-    
-    destroy_stack(stack);
-
-    Stack *stack2 = init_stack();
-
-    for(int i = 0;i<101;i++) stack_push(stack2,i);
-
-    TEST_CHECK(stack_peek(stack2) == 100); // Should return the top element
-    
-    destroy_stack(stack2);
-}
-
-void test_stack_push(void) 
-{
-    Stack *stack = init_stack();
-    TEST_CHECK(stack != NULL); // Check if stack is initialized
-    stack_push(stack, 42);
-    TEST_CHECK(stack_peek(stack) == 42); // Check if the pushed value is on top
-    
-    stack_push(stack, 84);
-    TEST_CHECK(stack_peek(stack) == 84); // Check if the new value is on top
+    top = stack_peek(stack);
+    TEST_CHECK(*top == 40);
+    TEST_CHECK(stack_size(stack) == 4);
     
     destroy_stack(stack);
 }
 
-void test_stack_pop(void) 
+void test_struct_stack(void)
 {
-    Stack *stack = init_stack();
-    TEST_CHECK(stack != NULL); // Check if stack is initialized
-    stack_push(stack, 10);
-    stack_push(stack, 20);
-    stack_push(stack, 30);
+    typedef struct {
+        int id;
+        char name[20];
+        float score;
+    } Student;
     
+    Stack *stack = init_stack(sizeof(Student));
+    TEST_CHECK(stack != NULL);
+    
+    Student s1 = {1, "Alice", 85.5f};
+    Student s2 = {2, "Bob", 92.0f};
+    
+    // Test push with structs
+    stack_push(stack, &s1);
+    stack_push(stack, &s2);
+    TEST_CHECK(stack_size(stack) == 2);
+    
+    // Test peek with structs
+    Student *top = stack_peek(stack);
+    TEST_CHECK(top->id == 2);
+    TEST_CHECK(strcmp(top->name, "Bob") == 0);
+    TEST_CHECK(top->score == 92.0f);
+    
+    // Test pop with structs
     stack_pop(stack);
-    TEST_CHECK(stack_peek(stack) == 20); // Should return the new top element after pop
-    
-    stack_pop(stack);
-    TEST_CHECK(stack_peek(stack) == 10); // Should return the new top element after another pop
+    top = stack_peek(stack);
+    TEST_CHECK(top->id == 1);
     
     destroy_stack(stack);
 }
 
-void test_destroy_stack(void) 
+void test_stack_resizing(void) 
 {
-    Stack *stack = init_stack();
-    TEST_CHECK(stack != NULL); // Check if stack is initialized
-    for(int i = 0;i<300 ;i++) stack_push(stack,i);
+    Stack *stack = init_stack(sizeof(int));
+    TEST_CHECK(stack != NULL);
     
-    destroy_stack(stack); // Ensure it runs without errors
+    // Fill the stack beyond initial capacity
+    for (int i = 0; i < 150; i++) {
+        stack_push(stack, &i);
+    }
+    TEST_CHECK(stack_size(stack) == 150);
+    int capacity = get_stack_capacity(stack);
+    TEST_CHECK(capacity >= 150);
     
-    // After destroying, the stack should not be accessible, but we can't check it directly.
-    // We can only ensure that the function runs without errors.
-    TEST_CHECK(true);
+    // Verify elements are correct after resizing
+    int *top = stack_peek(stack);
+    TEST_CHECK(*top == 149);
+    
+    for (int i = 0; i < 100; i++) {
+        stack_pop(stack);
+    }
+    top = stack_peek(stack);
+    TEST_CHECK(*top == 49);
+    TEST_CHECK(stack_size(stack) == 50);
+    
+    destroy_stack(stack);
+}
+
+void test_stack_edge_cases(void)
+{
+    // Test with char type
+    Stack *char_stack = init_stack(sizeof(char));
+    char c = 'A';
+    stack_push(char_stack, &c);
+    char *char_top = stack_peek(char_stack);
+    TEST_CHECK(*char_top == 'A');
+    destroy_stack(char_stack);
+    
+    // Test with double type
+    Stack *double_stack = init_stack(sizeof(double));
+    double d = 3.14159;
+    stack_push(double_stack, &d);
+    double *double_top = stack_peek(double_stack);
+    TEST_CHECK(*double_top == d);
+    destroy_stack(double_stack);
+    
+    // Test empty stack operations
+    Stack *empty_stack = init_stack(sizeof(int));
+    TEST_CHECK(stack_peek(empty_stack) == NULL);
+    stack_pop(empty_stack);  // Should not crash
+    destroy_stack(empty_stack);
+    
+    // Test get_stack_data and get_stack_top
+    Stack *test_stack = init_stack(sizeof(int));
+    int val = 42;
+    stack_push(test_stack, &val);
+    TEST_CHECK(get_stack_data(test_stack) != NULL);
+    TEST_CHECK(get_stack_top(test_stack) == 0);
+    destroy_stack(test_stack);
 }
 
 TEST_LIST = {
     { "stack_init", test_stack_init },
-    { "stack_empty", test_stack_empty },
-    { "stack_full", test_stack_full },
-    { "stack_size", test_stack_size },
-    { "stack_peek", test_stack_peek },
-    { "stack_push", test_stack_push },
-    { "stack_pop", test_stack_pop },
-    { "destroy_stack", test_destroy_stack },
+    { "int_stack", test_int_stack },
+    { "struct_stack", test_struct_stack },
+    { "stack_resizing", test_stack_resizing },
+    { "stack_edge_cases", test_stack_edge_cases },
     { NULL, NULL }
 };
