@@ -1,22 +1,25 @@
 #include <stdlib.h>
 #include "stack.h"
+#include <string.h>
 
 struct Stack 
 {
-    int *data;      // Pointer to the stack's data
+    void *data;      // Pointer to the stack's data
     int top;        // Index of the top element
+    int element_size; // Size of each element in the stack
     int capacity;  // Capacity of the stack
 };
 
 
 /*Function to initialize a stack*/
-Stack *init_stack(void)
+Stack *init_stack(int element_size)
 {
     Stack *stack = malloc(sizeof(struct Stack));
     if(!stack) return NULL; // If memory allocation fails, return
 
     stack->capacity = 100; // Set initial capacity
-    stack->data = malloc(stack->capacity * sizeof(int)); // Allocate memory for 100 integers
+    stack->element_size = element_size; // Set the size of each element
+    stack->data = malloc(stack->capacity * stack->element_size); // Allocate memory for 100 integers
     if(!stack->data) 
     {
         free(stack); // Free the stack if data allocation fails
@@ -46,26 +49,28 @@ int stack_size(Stack *stack)
 }
 
 /*Function to return the topmost element of the stack*/
-int stack_peek(Stack *stack)
+void *stack_peek(Stack *stack)
 {
-    if (is_stack_empty(stack)) return -1; // Return -1 if the stack is empty
+    if (!stack || is_stack_empty(stack)) return NULL; // Return NULL if the stack is empty
 
-    return stack->data[stack->top]; // Return the top element of the stack
+    return (char*)stack->data + stack->top * stack->element_size; // Return the top element of the stack
 }
 
 /*Function to push an element onto the stack*/
-void stack_push(Stack *stack,int val)
+void stack_push(Stack *stack,void *val)
 {
     if(!stack || is_stack_full(stack))
     {
-        int *new_data = realloc(stack->data, (stack->capacity*2) * sizeof(int));
+        void *new_data = realloc(stack->data, (stack->capacity*2) *stack->element_size);
         if(!new_data) return;
 
         stack->data = new_data; // Reallocate memory to double the capacity
         stack->capacity *= 2; // Update the capacity
     }
 
-    stack->data[++stack->top] = val; // Increment top and push the value onto the stack
+    stack->top++; // Increment top to point to the next position
+    char *ptr = (char*)stack->data + stack->top * stack->element_size; // Calculate the address of the new top element
+    memcpy(ptr,val, stack->element_size); // Copy the value into the stack
 }
 
 /*Function to pop an element from the stack*/
@@ -86,7 +91,7 @@ void destroy_stack(Stack *stack)
 }
 
 //Helper function to get the stack data
-int *get_stack_data(Stack *stack)
+void *get_stack_data(Stack *stack)
 {
     return stack->data;
 }
@@ -96,4 +101,11 @@ int get_stack_top(Stack *stack)
     if(!stack || stack->top==-1) return -1;
 
     return stack->top; // Return the index of the top element
+}
+
+//Helper function to get the capacity of the stack
+int get_stack_capacity(Stack *stack)
+{
+    if(!stack) return -1;
+    return stack->capacity; // Return the capacity of the stack
 }
