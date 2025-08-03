@@ -3,7 +3,7 @@ CC = gcc
 CFLAGS = -g3 -Wall -Wextra -Werror -pedantic -I../include
 
 PROGRAM = ./test
-OBJS = ../src/bst.o ../tests/bst_test.o
+OBJS = ../src/vector.o ../tests/vector_test.o
 
 $(PROGRAM): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(PROGRAM)
