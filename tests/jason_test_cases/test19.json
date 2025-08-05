@@ -1,0 +1,81 @@
+{
+  "employees": [
+    {
+      "id": 1,
+      "name": "Anna",
+      "department": "Engineering",
+      "skills": ["C", "C++", "Python"]
+    },
+    {
+      "id": 2,
+      "name": "Ben",
+      "department": "Design",
+      "skills": ["Photoshop", "Figma", "Illustrator"]
+    },
+    {
+      "id": 3,
+      "name": "Cara",
+      "department": "Marketing",
+      "skills": ["SEO", "Content", "Social Media"],
+      "manager": true,
+    },  // <-  extra comma
+
+    {
+      "id": 4,
+      "name": "David",
+      "department": "Engineering",
+      "skills": ["Go", "Rust", "Java"]
+    },
+
+    {
+      "id": 5,
+      "name": "Eva",
+      "department": Design,  //  unquoted string
+      "skills": ["Sketch", "UX"]
+    },
+
+    {
+      "id": 6,
+      "name": "Fred",
+      "skills": ["Accounting", "Excel", "Budgeting"]
+      //  missing department
+    },
+
+    {
+      "id": 7
+      "name": "Grace",  //  missing comma
+      "department": "Engineering",
+      "skills": ["Python", "C"]
+    },
+
+    {
+      "id": 8,
+      "name": "Henry",
+      "department": "QA",
+      "skills": [Manual Testing", "Automation"]  //  missing opening quote
+    },
+
+    {
+      "id": 9,
+      "name": "Ivy",
+      "department": "Support",
+      "skills": ["Email", "Chat", "Phone"]
+    },
+
+    {
+      "id": 10,
+      "name": "Jake",
+      "department": "Engineering",
+      "skills": ["C#", "Azure", "Docker"],
+      "extra": {
+        "level": "senior",
+        "certifications": ["AWS", "GCP"
+      }  //  missing closing bracket
+    }
+
+  ],  //  valid close, but...
+  "meta": {
+    "total": 10,
+    "generated_at": "2025-08-05T12:00:00Z",
+    "source": "internal"
+  } //  missing closing brace for whole object

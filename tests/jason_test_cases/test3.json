@@ -1,0 +1,1 @@
+{"choices":[{},{"message":{"content":"This is in choices[1].message.content and should not be printed"}}]}

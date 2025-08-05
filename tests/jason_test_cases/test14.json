@@ -1,0 +1,52 @@
+{
+    "lala": {
+        "choices": [
+            {
+                "message": {
+                    "content": "First choice content!"
+                }
+            },
+            {},
+            false,
+            true,
+            null,
+            42,
+            42.42,
+            "",
+            []
+        ]
+    },
+    "xmm": "what?\"},",
+    "choices": [
+        {
+            "message": {
+                "lala": null,
+                "content": "/////////\n: OK!\t:\n\\\\\\\\\\\\\\\\\\"
+            }
+        },
+        {
+            "message": {
+                "content": "Second choice content!"
+            }
+        },
+        {
+            "message": {
+                "content": "Wiong!"
+            }
+        },
+        {
+            "message": {
+                "content": "Another example with special characters: \\n\\t\"\\\\\\"
+            }
+        }
+    ],
+    "metadata": {
+        "version": "1.0",
+        "timestamp": "2025-01-14T12:00:00Z",
+        "author": {
+            "name": "Jane Doe",
+            "id": 98765
+        }
+    },
+    "misc": [null, {}, 123, "random string", true, false]
+}

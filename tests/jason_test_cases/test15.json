@@ -1,0 +1,33 @@
+{ 
+    "lala": {
+        "choices": [
+            {
+                "message": {
+                    "content": "Wiong!"
+                }
+            },
+            {},
+            false,
+            true,
+            null,
+            42,
+            42.42,
+            "",
+            []
+        ]
+    },
+    "xmm": "what?\"},",
+    "choices": [
+        {
+            "message": {
+                "lala": null,
+                "content": "/////////\n: OK!\t:\n\\\\\\\\\\\\\\\\\\"
+            }
+        },
+        {
+            "message": {
+                "content": "Wrong!"
+            }
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+{
+    "data": {
+      "entry_1": {
+        "key": "long value with significant content to fill space",
+        "description": "This is a detailed explanation of entry_1."
+      },
+      "entry_2": {
+        "key": "additional data for second entry to expand JSON",
+        "description": "Explanation for the second entry, slightly longer."
+      },
+      "entry_3": {
+        "key": "even more data to ensure JSON grows",
+        "description": "The explanation grows with each additional entry."
+      },
+      "entry_4": {
+        "key": "this is still within the second JSON example",
+        "description": "All data here is structured and not using arrays."
+      }
+    }
+  }  
