@@ -171,7 +171,7 @@ int validate_json(void) {
 }
 
 //Checks if the json file is valid. Returns 0 if valid, 1 otherwise.
-int extraction_mode(char *name_of_file) {
+int json_parser(char *name_of_file) {
 
     char *buffer = NULL; 
     FILE *file = fopen(name_of_file, "r");
