@@ -127,6 +127,7 @@ void insert_hash(char *key,int value,struct hashtable *ht)
     
     hashnode *node = ht->bucket[index];
 
+    //Update value if key already exists
     while(node)
     {
         if(!strcmp(node->key,key))
@@ -230,12 +231,16 @@ int get_size(hashtable *ht)
 }
 
 
-int get_value(char *key, hashtable *ht)
+hashnode *get_node(char *key, hashtable *ht)
 {
-    if(!ht || !key) return -1; // Check for null pointers
+    if(!ht || !key) return NULL; // Check for null pointers
 
     hashnode *node = search_hash(key, ht);
-    if(node) return node->value;
+    return node ? node : NULL; // Return value if found, else NULL
+}
 
-    return -1; // Key not found
+//User first call get_node to get the node, then call this function to get the value
+int get_value(hashnode *node)
+{
+    return node->value;
 }
