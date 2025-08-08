@@ -30,7 +30,9 @@ void free_hashtable(hashtable *ht);
 //Helper functions
 
 int get_size(hashtable *ht);
-int get_value(char *key, hashtable *ht);
+hashnode *get_node(char *key, hashtable *ht);
+//User first call get_node to get the node, then call this function to get the value
+int get_value(hashnode *node);
 size_t next_power_of_two(size_t n);
 
 #endif 
