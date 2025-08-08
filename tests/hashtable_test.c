@@ -26,10 +26,13 @@ void test_insert_and_search(void) {
     hashnode *n3 = search_hash("three", ht);
     hashnode *n4 = search_hash("four", ht); // should not exist
 
-    int value = get_value("one", ht);
-    int value2 = get_value("two", ht);
-    int value3 = get_value("three", ht);
-    TEST_CHECK(n1 && value == 1);
+    int value1, value2, value3;
+    if(n1) value1 = get_value(n1);
+    if(n2) value2 = get_value(n2);
+    if(n3) value3 = get_value(n3);
+
+
+    TEST_CHECK(n1 && value1 == 1);
     TEST_CHECK(n2 && value2 == 2);
     TEST_CHECK(n3 && value3 == 3);
     TEST_CHECK(n4 == NULL);
@@ -42,8 +45,10 @@ void test_update_value(void) {
     insert_hash("hello", 10, ht);
     insert_hash("hello", 99, ht); // update value
 
-    int value = get_value("hello", ht);
+
     hashnode *n = search_hash("hello", ht);
+    int value;
+    if(n) value = get_value(n);
     TEST_CHECK(n && value == 99);
 
     free_hashtable(ht);
@@ -93,7 +98,8 @@ void test_resize_and_rehashing(void) {
         char key[16];
         sprintf(key, "key%d", i);
         hashnode *n = search_hash(key, ht);
-        int val = get_value(key, ht);
+        int val;
+        if(n) val = get_value(n);
         TEST_CHECK(n && val == i * 10);
     }
     int size = get_size(ht);
