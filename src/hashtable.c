@@ -63,7 +63,7 @@ hashtable *create_hashtable(size_t size)
 
 
 //Hash function djb2
-unsigned long hash(char *key)
+unsigned long hash(const char *key)
 {
     unsigned long hash = 5381;
     int character;
@@ -78,7 +78,7 @@ unsigned long hash(char *key)
 }
 
 //Helper function to find the load factor of the hashtable
-double load_factor(struct hashtable *ht)
+double load_factor(const struct hashtable *ht)
 {
     if (!ht || ht->size == 0) return 0; // Avoid division by zero
     return (double)ht->cnt / ht->size;
@@ -117,7 +117,7 @@ void resize_hashtable(struct hashtable *ht)
 }
 
 //Function to insert a key-value pair into the hashtable
-void insert_hash(char *key,int value,struct hashtable *ht)
+void insert_hash(const char *key,int value,struct hashtable *ht)
 {
     if(!ht || !key) return; 
 
@@ -155,7 +155,7 @@ void insert_hash(char *key,int value,struct hashtable *ht)
 }
 
 //Function to search for a value by key in the hashtable
-hashnode *search_hash(char *key, hashtable *ht)
+hashnode *search_hash(const char *key,const hashtable *ht)
 {
     if (!ht || !key) return NULL; // Check for null pointers
 
@@ -175,7 +175,7 @@ hashnode *search_hash(char *key, hashtable *ht)
 }
 
 //Function to delete a key-value pair from the hashtable
-bool delete_hash(char *key, hashtable *ht)
+bool delete_hash(const char *key, hashtable *ht)
 {
     if(!ht || !key) return false;
 
@@ -224,14 +224,14 @@ void free_hashtable(hashtable *ht)
 
 //Helper functions
 
-int get_size(hashtable *ht)
+int get_size(const hashtable *ht)
 {
     if(!ht) return -1; // Check for null pointer
     return ht->size;
 }
 
 
-hashnode *get_node(char *key, hashtable *ht)
+hashnode *get_node(const char *key,const hashtable *ht)
 {
     if(!ht || !key) return NULL; // Check for null pointers
 
@@ -240,7 +240,7 @@ hashnode *get_node(char *key, hashtable *ht)
 }
 
 //User first call get_node to get the node, then call this function to get the value
-int get_value(hashnode *node)
+int get_value(const hashnode *node)
 {
     return node->value;
 }
