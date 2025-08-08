@@ -13,6 +13,8 @@ A collection of fundamental data structures implemented in C, including stacks, 
 - [Stack](#stack)
 - [Vector](#vector)
 - [Weighted Undirected Graph](#weighted-undirected-graph)
+
+## How To Run
 1. Navigate to the `run` Directory
 ```sh
 cd run
